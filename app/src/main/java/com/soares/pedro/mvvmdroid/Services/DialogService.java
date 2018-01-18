@@ -1,14 +1,17 @@
 package com.soares.pedro.mvvmdroid.Services;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Toast;
 
-import com.soares.pedro.mvvmdroid.R;
 import com.soares.pedro.mvvmdroid.Services.Interfaces.IDialogService;
+import com.soares.pedro.mvvmlib.R;
+
+import java.util.Calendar;
 
 public class DialogService extends BaseService implements IDialogService {
 
@@ -118,5 +121,15 @@ public class DialogService extends BaseService implements IDialogService {
             }
         }
         dialog.show();
+    }
+
+    @Override
+    public void showDatePickerDialog(DatePickerDialog.OnDateSetListener action) {
+        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        int month = Calendar.getInstance().get(Calendar.MONTH);
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getCurrentActivity(), action, year, month, day);
+        datePickerDialog.show();
     }
 }

@@ -1,5 +1,6 @@
 package com.soares.pedro.mvvmdroid.Services.Interfaces;
 
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 
 public interface IDialogService extends IService {
@@ -31,4 +32,6 @@ public interface IDialogService extends IService {
     public void showDialog(String title, String message, boolean isCancelable,
                            DialogInterface.OnClickListener positiveAction, DialogInterface.OnClickListener negativeAction,
                            String positiveText, String negativeText);
+
+    public void showDatePickerDialog(DatePickerDialog.OnDateSetListener action);
 }

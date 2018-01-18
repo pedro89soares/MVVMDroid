@@ -1,5 +1,5 @@
-    <resources>
-    <string name="app_name">MVVMDroid</string>
-        <string name="defaultCancel">Cancel</string>
-        <string name="defaultOk">OK</string>
+<resources>
+    <string name="app_name">MVVMLib</string>
+    <string name="defaultCancel">Cancel</string>
+    <string name="defaultOk">OK</string>
 </resources>

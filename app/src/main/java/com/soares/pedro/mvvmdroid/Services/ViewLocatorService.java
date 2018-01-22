@@ -1,6 +1,7 @@
 package com.soares.pedro.mvvmdroid.Services;
 
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 
 import com.soares.pedro.mvvmdroid.Activities.BaseActivity;
 import com.soares.pedro.mvvmdroid.Models.FragmentView;
@@ -65,7 +66,7 @@ public class ViewLocatorService extends BaseService implements IViewLocatorServi
     }
 
     @Override
-    public BaseActivity getActivityInstanceOf(String view) {
+    public AppCompatActivity getActivityInstanceOf(String view) {
         if (containsView(view)) {
             Class c = locator.get(view);
             if (BaseActivity.class.isAssignableFrom(c)) {

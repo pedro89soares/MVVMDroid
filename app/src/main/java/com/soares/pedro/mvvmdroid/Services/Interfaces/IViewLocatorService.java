@@ -1,17 +1,17 @@
 package com.soares.pedro.mvvmdroid.Services.Interfaces;
 
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 
-import com.soares.pedro.mvvmdroid.Activities.BaseActivity;
 import com.soares.pedro.mvvmdroid.Models.FragmentView;
 
-public interface IViewLocatorService<F extends Class<Fragment>, A extends Class<BaseActivity>> extends IService {
+public interface IViewLocatorService extends IService {
 
-    public void registerView(String key, A activity);
+    public void registerView(String key, Class activity);
 
-    public void registerView(String key, F fragment, String parentActivity, int container);
+    public void registerView(String key, Class fragment, String parentActivity, int container);
 
-    Class<A> getView(String key);
+    Class getView(String key);
 
     FragmentView getFragmentView(String key);
 
@@ -19,7 +19,7 @@ public interface IViewLocatorService<F extends Class<Fragment>, A extends Class<
 
     public boolean containsFragmentView(String key);
 
-    public <f extends Fragment> f getFragmentInstanceOf(String view);
+    public Fragment getFragmentInstanceOf(String view);
 
-    public <a extends BaseActivity> a getActivityInstanceOf(String view);
+    public AppCompatActivity getActivityInstanceOf(String view);
 }

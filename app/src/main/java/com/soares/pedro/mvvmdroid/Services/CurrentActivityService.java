@@ -83,10 +83,17 @@ public class CurrentActivityService implements ICurrentActivityService {
         return wasHandled;
     }
 
-    private void notifyActivityChangedListeners(AppCompatActivity currentActivity) {
+    private void notifyActivityChanged(AppCompatActivity currentActivity) {
         if (activityChangedListeners == null) return;
         for (IActivityChangedListener listener : activityChangedListeners) {
             listener.notifyActivityChanged(currentActivity);
+        }
+    }
+
+    private void notifyActivityStarted(AppCompatActivity currentActivity) {
+        if (activityChangedListeners == null) return;
+        for (IActivityChangedListener listener : activityChangedListeners) {
+            listener.notifyActivityStarted(currentActivity);
         }
     }
 
@@ -100,7 +107,7 @@ public class CurrentActivityService implements ICurrentActivityService {
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
             if (currentActivity != activity) {
                 currentActivity = (BaseActivity) activity;
-                notifyActivityChangedListeners(currentActivity);
+                notifyActivityChanged(currentActivity);
             }
         }
 
@@ -109,6 +116,7 @@ public class CurrentActivityService implements ICurrentActivityService {
             if (currentActivity != activity) {
                 currentActivity = (BaseActivity) activity;
             }
+            notifyActivityStarted(currentActivity);
         }
 
         @Override
@@ -120,18 +128,12 @@ public class CurrentActivityService implements ICurrentActivityService {
 
         @Override
         public void onActivityPaused(Activity activity) {
-            if (activity == currentActivity) {
-                currentActivity = null;
-                notifyActivityChangedListeners(null);
-            }
+
         }
 
         @Override
         public void onActivityStopped(Activity activity) {
-            if (activity == currentActivity) {
-                currentActivity = null;
-                notifyActivityChangedListeners(null);
-            }
+
         }
 
         @Override
@@ -143,7 +145,7 @@ public class CurrentActivityService implements ICurrentActivityService {
         public void onActivityDestroyed(Activity activity) {
             if (activity == currentActivity) {
                 currentActivity = null;
-                notifyActivityChangedListeners(null);
+                notifyActivityChanged(null);
             }
         }
     };

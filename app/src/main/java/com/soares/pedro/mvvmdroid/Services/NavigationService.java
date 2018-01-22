@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.soares.pedro.mvvmdroid.Adapters.MVVMViewPager;
 import com.soares.pedro.mvvmdroid.Services.Interfaces.IActivityChangedListener;
 import com.soares.pedro.mvvmdroid.Services.Interfaces.ICurrentActivityService;
 import com.soares.pedro.mvvmdroid.Services.Interfaces.INavigationService;
@@ -23,6 +26,7 @@ public class NavigationService extends BaseService implements INavigationService
     private HashMap<String, FragmentView> fragmentLocator;
     private PendingOperation pendingOperation;
 
+
     @Override
     public void register(String view, Class type) {
         if (locator == null)
@@ -30,6 +34,7 @@ public class NavigationService extends BaseService implements INavigationService
         if (view != null && !view.trim().isEmpty())
             locator.put(view, type);
     }
+
 
     @Override
     public void register(String view, String activity, int container, Class type) {
@@ -43,31 +48,48 @@ public class NavigationService extends BaseService implements INavigationService
 
     @Override
     public void navigateTo(String view) {
-        navigateTo(view, true);
+        navigateTo(view, true, false);
     }
 
     @Override
     public void navigateTo(String view, boolean addToBackStack) {
-        navigateWithContent(view, null, addToBackStack);
+        navigateTo(view, addToBackStack, false);
+    }
+
+    @Override
+    public void navigateTo(String view, boolean addToBackStack, boolean clearStack) {
+        navigateWithContent(view, null, addToBackStack, clearStack);
     }
 
     @Override
     public void navigateWithContent(String view, HashMap<String, Object> map) {
-        navigateWithContent(view, map, true);
+        navigateWithContent(view, map, true, false);
     }
 
     @Override
     public void navigateWithContent(String view, HashMap<String, Object> map, boolean addToBackStack) {
+        navigateWithContent(view, map, addToBackStack, false);
+    }
+
+    @Override
+    public void navigateWithContent(String view, HashMap<String, Object> map, boolean addToBackStack, boolean clearStack) {
         AppCompatActivity currentActivity = getCurrentActivity();
         Class activity;
         if (locator.containsKey(view)) {
             activity = locator.get(view);
             if (activity != null && currentActivity != null && currentActivity.getClass() != activity) {
                 Intent intent = new Intent(currentActivity, activity);
+
                 if (map != null) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(HASH_MAP_KEY, map);
                     intent.putExtras(bundle);
+                }
+                if (clearStack) {
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    AppCompatActivity act = currentActivity;
+                    act.startActivity(intent);
+                    act.finish();
                 }
                 currentActivity.startActivity(intent);
             }
@@ -77,12 +99,9 @@ public class NavigationService extends BaseService implements INavigationService
             if (currentActivity.getClass() != activity) {
                 pendingOperation = new PendingOperation(fv, map);
                 getCurrentActivityService().registerActivityChangedNotification(this);
-                navigateTo(fv.activity, true);
+                navigateTo(fv.activity, true, clearStack);
             } else {
-                View rootView = currentActivity.findViewById(android.R.id.content);
-                if (rootView != null && rootView.findViewById(fv.container) != null) {
-                    changeFragmentView(fv, map, addToBackStack);
-                }
+                changeFragmentView(fv, map, addToBackStack);
             }
         }
     }
@@ -142,14 +161,28 @@ public class NavigationService extends BaseService implements INavigationService
 
     private void changeFragmentView(FragmentView fv, HashMap<String, Object> map, boolean addToBackStack) {
         AppCompatActivity currentActivity = getCurrentActivity();
-        Fragment frag = getFragmentInstance(currentActivity.getSupportFragmentManager(), fv.view, fv.type);
-        if (frag != null) {
-            if (map != null) {
-                Bundle b = new Bundle();
-                b.putSerializable(HASH_MAP_KEY, map);
-                frag.setArguments(b);
+
+        View rootView = currentActivity.findViewById(android.R.id.content);
+        if (rootView != null) {
+            View container = rootView.findViewById(fv.container);
+            if (container != null && ViewPager.class.isAssignableFrom(container.getClass())) {
+                ViewPager pager = (ViewPager) container;
+                PagerAdapter adpt = pager.getAdapter();
+                if (adpt != null && MVVMViewPager.class.isAssignableFrom(adpt.getClass())) {
+                    MVVMViewPager adapter = (MVVMViewPager) adpt;
+                    pager.setCurrentItem(adapter.getPagePositonForKey(fv.view), true);
+                }
+            } else {
+                Fragment frag = getFragmentInstance(currentActivity.getSupportFragmentManager(), fv.view, fv.type);
+                if (frag != null) {
+                    if (map != null) {
+                        Bundle b = new Bundle();
+                        b.putSerializable(HASH_MAP_KEY, map);
+                        frag.setArguments(b);
+                    }
+                    replaceFragment(frag, fv.container, fv.view, addToBackStack);
+                }
             }
-            replaceFragment(frag, fv.container, fv.view, addToBackStack);
         }
     }
 
@@ -160,8 +193,22 @@ public class NavigationService extends BaseService implements INavigationService
             getCurrentActivityService().removeActivityChangedNotification(this);
             return;
         }
-        if (activity.getClass() == locator.get(pendingOperation.fragmentView.activity)) {
+        if (activity.getClass() == locator.get(pendingOperation.fragmentView.activity) && !pendingOperation.fragmentView.applyAfterLayout) {
             changeFragmentView(pendingOperation.fragmentView, pendingOperation.map, false);
+            pendingOperation = null;
+        }
+    }
+
+    @Override
+    public void notifyActivityStarted(AppCompatActivity activity) {
+        if (activity == null) return;
+        if (pendingOperation == null) {
+            getCurrentActivityService().removeActivityChangedNotification(this);
+            return;
+        }
+        if (activity.getClass() == locator.get(pendingOperation.fragmentView.activity) && pendingOperation.fragmentView.applyAfterLayout) {
+            changeFragmentView(pendingOperation.fragmentView, pendingOperation.map, false);
+            pendingOperation = null;
         }
     }
 
@@ -183,12 +230,35 @@ public class NavigationService extends BaseService implements INavigationService
         private String activity, view;
         private int container;
         private Class type;
+        private boolean applyAfterLayout;
 
         private FragmentView(String activity, String view, int container, Class type) {
+            this(activity, view, container, type, true);
+        }
+
+        private FragmentView(String activity, String view, int container, Class type, boolean applyAfterLayout) {
             this.activity = activity;
             this.view = view;
             this.container = container;
             this.type = type;
+            this.applyAfterLayout = applyAfterLayout;
         }
+    }
+
+    @Override
+    public <T extends Fragment> T getFragment(String fragmentKey) {
+        if (fragmentLocator.containsKey(fragmentKey)) {
+            FragmentView fragView = fragmentLocator.get(fragmentKey);
+            if (fragView != null) {
+                try {
+                    T frag = (T) fragView.type.newInstance();
+                    if (frag != null)
+                        return frag;
+                } catch (InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 }

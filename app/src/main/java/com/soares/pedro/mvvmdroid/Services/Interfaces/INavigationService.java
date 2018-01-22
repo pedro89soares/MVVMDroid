@@ -7,10 +7,6 @@ import java.util.HashMap;
 
 public interface INavigationService extends IService {
 
-    void register(String view, Class viewInstanceClass);
-
-    void register(String view, String activity, int container, Class viewInstanceClass);
-
     void navigateTo(String view);
 
     void navigateTo(String view, boolean addToBackStack);
@@ -26,7 +22,5 @@ public interface INavigationService extends IService {
     HashMap getContents(Intent intent);
 
     void back();
-
-    public <T extends Fragment> T getFragment(String fragmentKey);
 
 }

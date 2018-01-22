@@ -11,9 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.soares.pedro.mvvmdroid.Adapters.MVVMViewPager;
+import com.soares.pedro.mvvmdroid.Models.FragmentView;
 import com.soares.pedro.mvvmdroid.Services.Interfaces.IActivityChangedListener;
 import com.soares.pedro.mvvmdroid.Services.Interfaces.ICurrentActivityService;
 import com.soares.pedro.mvvmdroid.Services.Interfaces.INavigationService;
+import com.soares.pedro.mvvmdroid.Services.Interfaces.IViewLocatorService;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -22,28 +24,10 @@ public class NavigationService extends BaseService implements INavigationService
 
 
     private static final String HASH_MAP_KEY = "mapKey";
-    private HashMap<String, Class> locator;
-    private HashMap<String, FragmentView> fragmentLocator;
     private PendingOperation pendingOperation;
 
-
-    @Override
-    public void register(String view, Class type) {
-        if (locator == null)
-            locator = new HashMap<>();
-        if (view != null && !view.trim().isEmpty())
-            locator.put(view, type);
-    }
-
-
-    @Override
-    public void register(String view, String activity, int container, Class type) {
-        if (view == null || type == null || !locator.containsKey(activity)) return;
-        if (fragmentLocator == null)
-            fragmentLocator = new HashMap<>();
-
-        FragmentView fv = new FragmentView(activity, view, container, type);
-        fragmentLocator.put(view, fv);
+    public NavigationService() {
+        super();
     }
 
     @Override
@@ -74,9 +58,10 @@ public class NavigationService extends BaseService implements INavigationService
     @Override
     public void navigateWithContent(String view, HashMap<String, Object> map, boolean addToBackStack, boolean clearStack) {
         AppCompatActivity currentActivity = getCurrentActivity();
+        IViewLocatorService locator = ServiceLocator.getInstance().getService(IViewLocatorService.class);
         Class activity;
-        if (locator.containsKey(view)) {
-            activity = locator.get(view);
+        if (locator.containsView(view)) {
+            activity = locator.getView(view);
             if (activity != null && currentActivity != null && currentActivity.getClass() != activity) {
                 Intent intent = new Intent(currentActivity, activity);
 
@@ -87,19 +72,18 @@ public class NavigationService extends BaseService implements INavigationService
                 }
                 if (clearStack) {
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    AppCompatActivity act = currentActivity;
-                    act.startActivity(intent);
-                    act.finish();
+                    currentActivity.startActivity(intent);
+                    currentActivity.finish();
                 }
                 currentActivity.startActivity(intent);
             }
-        } else if (fragmentLocator.containsKey(view)) {
-            FragmentView fv = fragmentLocator.get(view);
-            activity = locator.get(fv.activity);
+        } else if (locator.containsFragmentView(view)) {
+            FragmentView fv = locator.getFragmentView(view);
+            activity = locator.getView(fv.getActivity());
             if (currentActivity.getClass() != activity) {
                 pendingOperation = new PendingOperation(fv, map);
                 getCurrentActivityService().registerActivityChangedNotification(this);
-                navigateTo(fv.activity, true, clearStack);
+                navigateTo(fv.getActivity(), true, clearStack);
             } else {
                 changeFragmentView(fv, map, addToBackStack);
             }
@@ -164,23 +148,23 @@ public class NavigationService extends BaseService implements INavigationService
 
         View rootView = currentActivity.findViewById(android.R.id.content);
         if (rootView != null) {
-            View container = rootView.findViewById(fv.container);
+            View container = rootView.findViewById(fv.getContainer());
             if (container != null && ViewPager.class.isAssignableFrom(container.getClass())) {
                 ViewPager pager = (ViewPager) container;
                 PagerAdapter adpt = pager.getAdapter();
                 if (adpt != null && MVVMViewPager.class.isAssignableFrom(adpt.getClass())) {
                     MVVMViewPager adapter = (MVVMViewPager) adpt;
-                    pager.setCurrentItem(adapter.getPagePositonForKey(fv.view), true);
+                    pager.setCurrentItem(adapter.getPagePositonForKey(fv.getView()), true);
                 }
             } else {
-                Fragment frag = getFragmentInstance(currentActivity.getSupportFragmentManager(), fv.view, fv.type);
+                Fragment frag = getFragmentInstance(currentActivity.getSupportFragmentManager(), fv.getView(), fv.getType());
                 if (frag != null) {
                     if (map != null) {
                         Bundle b = new Bundle();
                         b.putSerializable(HASH_MAP_KEY, map);
                         frag.setArguments(b);
                     }
-                    replaceFragment(frag, fv.container, fv.view, addToBackStack);
+                    replaceFragment(frag, fv.getContainer(), fv.getView(), addToBackStack);
                 }
             }
         }
@@ -188,12 +172,13 @@ public class NavigationService extends BaseService implements INavigationService
 
     @Override
     public void notifyActivityChanged(AppCompatActivity activity) {
+        IViewLocatorService locator = ServiceLocator.getInstance().getService(IViewLocatorService.class);
         if (activity == null) return;
         if (pendingOperation == null) {
             getCurrentActivityService().removeActivityChangedNotification(this);
             return;
         }
-        if (activity.getClass() == locator.get(pendingOperation.fragmentView.activity) && !pendingOperation.fragmentView.applyAfterLayout) {
+        if (activity.getClass() == locator.getView(pendingOperation.fragmentView.getActivity()) && !pendingOperation.fragmentView.isApplyAfterLayout()) {
             changeFragmentView(pendingOperation.fragmentView, pendingOperation.map, false);
             pendingOperation = null;
         }
@@ -201,12 +186,13 @@ public class NavigationService extends BaseService implements INavigationService
 
     @Override
     public void notifyActivityStarted(AppCompatActivity activity) {
+        IViewLocatorService locator = ServiceLocator.getInstance().getService(IViewLocatorService.class);
         if (activity == null) return;
         if (pendingOperation == null) {
             getCurrentActivityService().removeActivityChangedNotification(this);
             return;
         }
-        if (activity.getClass() == locator.get(pendingOperation.fragmentView.activity) && pendingOperation.fragmentView.applyAfterLayout) {
+        if (activity.getClass() == locator.getView(pendingOperation.fragmentView.getActivity()) && pendingOperation.fragmentView.isApplyAfterLayout()) {
             changeFragmentView(pendingOperation.fragmentView, pendingOperation.map, false);
             pendingOperation = null;
         }
@@ -224,41 +210,5 @@ public class NavigationService extends BaseService implements INavigationService
             this.fragmentView = framentView;
             this.map = map;
         }
-    }
-
-    private class FragmentView {
-        private String activity, view;
-        private int container;
-        private Class type;
-        private boolean applyAfterLayout;
-
-        private FragmentView(String activity, String view, int container, Class type) {
-            this(activity, view, container, type, true);
-        }
-
-        private FragmentView(String activity, String view, int container, Class type, boolean applyAfterLayout) {
-            this.activity = activity;
-            this.view = view;
-            this.container = container;
-            this.type = type;
-            this.applyAfterLayout = applyAfterLayout;
-        }
-    }
-
-    @Override
-    public <T extends Fragment> T getFragment(String fragmentKey) {
-        if (fragmentLocator.containsKey(fragmentKey)) {
-            FragmentView fragView = fragmentLocator.get(fragmentKey);
-            if (fragView != null) {
-                try {
-                    T frag = (T) fragView.type.newInstance();
-                    if (frag != null)
-                        return frag;
-                } catch (InstantiationException | IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return null;
     }
 }

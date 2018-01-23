@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.soares.pedro.mvvmdroid.Services.Interfaces.ICurrentActivityService;
 
-class BaseService {
+public class BaseService {
 
     protected AppCompatActivity getCurrentActivity() {
         ICurrentActivityService activityService = ServiceLocator.getInstance().getService(ICurrentActivityService.class);
@@ -12,6 +12,4 @@ class BaseService {
             return activityService.getCurrentActivity();
         return null;
     }
-
-
 }

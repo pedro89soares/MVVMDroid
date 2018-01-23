@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.soares.pedro.mvvmdroid.Adapters.MVVMViewPager;
 import com.soares.pedro.mvvmdroid.Models.FragmentView;
+import com.soares.pedro.mvvmdroid.Models.PendingOperation;
 import com.soares.pedro.mvvmdroid.Services.Interfaces.IActivityChangedListener;
 import com.soares.pedro.mvvmdroid.Services.Interfaces.ICurrentActivityService;
 import com.soares.pedro.mvvmdroid.Services.Interfaces.INavigationService;
@@ -178,8 +179,8 @@ public class NavigationService extends BaseService implements INavigationService
             getCurrentActivityService().removeActivityChangedNotification(this);
             return;
         }
-        if (activity.getClass() == locator.getView(pendingOperation.fragmentView.getActivity()) && !pendingOperation.fragmentView.isApplyAfterLayout()) {
-            changeFragmentView(pendingOperation.fragmentView, pendingOperation.map, false);
+        if (activity.getClass() == locator.getView(pendingOperation.getFragmentView().getActivity()) && !pendingOperation.isApplyAfterLayout()) {
+            changeFragmentView(pendingOperation.getFragmentView(), pendingOperation.getMap(), false);
             pendingOperation = null;
         }
     }
@@ -192,23 +193,13 @@ public class NavigationService extends BaseService implements INavigationService
             getCurrentActivityService().removeActivityChangedNotification(this);
             return;
         }
-        if (activity.getClass() == locator.getView(pendingOperation.fragmentView.getActivity()) && pendingOperation.fragmentView.isApplyAfterLayout()) {
-            changeFragmentView(pendingOperation.fragmentView, pendingOperation.map, false);
+        if (activity.getClass() == locator.getView(pendingOperation.getFragmentView().getActivity()) && pendingOperation.isApplyAfterLayout()) {
+            changeFragmentView(pendingOperation.getFragmentView(), pendingOperation.getMap(), false);
             pendingOperation = null;
         }
     }
 
     private ICurrentActivityService getCurrentActivityService() {
         return ServiceLocator.getInstance().getService(ICurrentActivityService.class);
-    }
-
-    private class PendingOperation {
-        private FragmentView fragmentView;
-        private HashMap<String, Object> map;
-
-        private PendingOperation(FragmentView framentView, HashMap<String, Object> map) {
-            this.fragmentView = framentView;
-            this.map = map;
-        }
     }
 }

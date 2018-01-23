@@ -1,6 +1,7 @@
 package com.soares.pedro.mvvmdroid.Services.Interfaces;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 
 public interface IDialogService extends IService {
@@ -34,4 +35,6 @@ public interface IDialogService extends IService {
                            String positiveText, String negativeText);
 
     public void showDatePickerDialog(DatePickerDialog.OnDateSetListener action);
+
+    public void showTimePickerDialog(TimePickerDialog.OnTimeSetListener action);
 }

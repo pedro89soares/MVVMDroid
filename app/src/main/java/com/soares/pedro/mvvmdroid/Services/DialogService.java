@@ -2,6 +2,7 @@ package com.soares.pedro.mvvmdroid.Services;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -131,5 +132,16 @@ public class DialogService extends BaseService implements IDialogService {
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(getCurrentActivity(), action, year, month, day);
         datePickerDialog.show();
+    }
+
+    @Override
+    public void showTimePickerDialog(TimePickerDialog.OnTimeSetListener action) {
+
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        int minute = Calendar.getInstance().get(Calendar.MINUTE);
+
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getCurrentActivity(), action, hour, minute, true);
+        timePickerDialog.show();
     }
 }

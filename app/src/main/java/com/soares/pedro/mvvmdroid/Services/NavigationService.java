@@ -193,6 +193,20 @@ public class NavigationService extends BaseService implements INavigationService
             getCurrentActivityService().removeActivityChangedNotification(this);
             return;
         }
+        if (activity.getClass() == locator.getView(pendingOperation.getFragmentView().getActivity()) && !pendingOperation.isApplyAfterLayout()) {
+            changeFragmentView(pendingOperation.getFragmentView(), pendingOperation.getMap(), false);
+            pendingOperation = null;
+        }
+    }
+
+    @Override
+    public void notifyActivityResumed(AppCompatActivity activity) {
+        IViewLocatorService locator = ServiceLocator.getInstance().getService(IViewLocatorService.class);
+        if (activity == null) return;
+        if (pendingOperation == null) {
+            getCurrentActivityService().removeActivityChangedNotification(this);
+            return;
+        }
         if (activity.getClass() == locator.getView(pendingOperation.getFragmentView().getActivity()) && pendingOperation.isApplyAfterLayout()) {
             changeFragmentView(pendingOperation.getFragmentView(), pendingOperation.getMap(), false);
             pendingOperation = null;

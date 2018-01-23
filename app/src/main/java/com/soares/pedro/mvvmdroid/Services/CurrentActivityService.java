@@ -97,6 +97,13 @@ public class CurrentActivityService implements ICurrentActivityService {
         }
     }
 
+    private void notifyActivityResumed(AppCompatActivity currentActivity) {
+        if (activityChangedListeners == null) return;
+        for (IActivityChangedListener listener : activityChangedListeners) {
+            listener.notifyActivityResumed(currentActivity);
+        }
+    }
+
     @Override
     public void clear() {
         currentActivity = null;
@@ -124,6 +131,7 @@ public class CurrentActivityService implements ICurrentActivityService {
             if (currentActivity != activity) {
                 currentActivity = (BaseActivity) activity;
             }
+            notifyActivityResumed(currentActivity);
         }
 
         @Override

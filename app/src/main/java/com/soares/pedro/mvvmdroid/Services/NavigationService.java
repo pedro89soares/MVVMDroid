@@ -193,7 +193,7 @@ public class NavigationService extends BaseService implements INavigationService
             getCurrentActivityService().removeActivityChangedNotification(this);
             return;
         }
-        if (activity.getClass() == locator.getView(pendingOperation.getFragmentView().getActivity()) && !pendingOperation.isApplyAfterLayout()) {
+        if (activity.getClass() == locator.getView(pendingOperation.getFragmentView().getActivity()) && pendingOperation.isApplyAfterLayout()) {
             changeFragmentView(pendingOperation.getFragmentView(), pendingOperation.getMap(), false);
             pendingOperation = null;
         }
@@ -205,11 +205,6 @@ public class NavigationService extends BaseService implements INavigationService
         if (activity == null) return;
         if (pendingOperation == null) {
             getCurrentActivityService().removeActivityChangedNotification(this);
-            return;
-        }
-        if (activity.getClass() == locator.getView(pendingOperation.getFragmentView().getActivity()) && pendingOperation.isApplyAfterLayout()) {
-            changeFragmentView(pendingOperation.getFragmentView(), pendingOperation.getMap(), false);
-            pendingOperation = null;
         }
     }
 

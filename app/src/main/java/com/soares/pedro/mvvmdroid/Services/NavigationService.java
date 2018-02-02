@@ -13,6 +13,7 @@ import android.view.View;
 import com.soares.pedro.mvvmdroid.Adapters.MVVMViewPager;
 import com.soares.pedro.mvvmdroid.Models.FragmentView;
 import com.soares.pedro.mvvmdroid.Models.PendingOperation;
+import com.soares.pedro.mvvmdroid.Services.Enums.NavigationMode;
 import com.soares.pedro.mvvmdroid.Services.Interfaces.IActivityChangedListener;
 import com.soares.pedro.mvvmdroid.Services.Interfaces.ICurrentActivityService;
 import com.soares.pedro.mvvmdroid.Services.Interfaces.INavigationService;
@@ -33,31 +34,31 @@ public class NavigationService extends BaseService implements INavigationService
 
     @Override
     public void navigateTo(String view) {
-        navigateTo(view, true, false);
+        navigateTo(view, true, NavigationMode.Normal);
     }
 
     @Override
     public void navigateTo(String view, boolean addToBackStack) {
-        navigateTo(view, addToBackStack, false);
+        navigateTo(view, addToBackStack, NavigationMode.Normal);
     }
 
     @Override
-    public void navigateTo(String view, boolean addToBackStack, boolean clearStack) {
-        navigateWithContent(view, null, addToBackStack, clearStack);
+    public void navigateTo(String view, boolean addToBackStack, NavigationMode navigationMode) {
+        navigateWithContent(view, null, addToBackStack, navigationMode);
     }
 
     @Override
     public void navigateWithContent(String view, HashMap<String, Object> map) {
-        navigateWithContent(view, map, true, false);
+        navigateWithContent(view, map, true, NavigationMode.Normal);
     }
 
     @Override
     public void navigateWithContent(String view, HashMap<String, Object> map, boolean addToBackStack) {
-        navigateWithContent(view, map, addToBackStack, false);
+        navigateWithContent(view, map, addToBackStack, NavigationMode.Normal);
     }
 
     @Override
-    public void navigateWithContent(String view, HashMap<String, Object> map, boolean addToBackStack, boolean clearStack) {
+    public void navigateWithContent(String view, HashMap<String, Object> map, boolean addToBackStack, NavigationMode navigationMode) {
         AppCompatActivity currentActivity = getCurrentActivity();
         IViewLocatorService locator = ServiceLocator.getInstance().getService(IViewLocatorService.class);
         Class activity;
@@ -71,12 +72,22 @@ public class NavigationService extends BaseService implements INavigationService
                     bundle.putSerializable(HASH_MAP_KEY, map);
                     intent.putExtras(bundle);
                 }
-                if (clearStack) {
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    currentActivity.startActivity(intent);
-                    currentActivity.finish();
+                switch (navigationMode) {
+                    case Normal:
+                        currentActivity.startActivity(intent);
+                        break;
+                    case ClearTop:
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        currentActivity.startActivity(intent);
+                        currentActivity.finish();
+                        break;
+                    case ClearStack:
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        currentActivity.startActivity(intent);
+                        currentActivity.finish();
+                        break;
                 }
-                currentActivity.startActivity(intent);
+
             }
         } else if (locator.containsFragmentView(view)) {
             FragmentView fv = locator.getFragmentView(view);
@@ -84,7 +95,7 @@ public class NavigationService extends BaseService implements INavigationService
             if (currentActivity.getClass() != activity) {
                 pendingOperation = new PendingOperation(fv, map);
                 getCurrentActivityService().registerActivityChangedNotification(this);
-                navigateTo(fv.getActivity(), true, clearStack);
+                navigateTo(fv.getActivity(), true, navigationMode);
             } else {
                 changeFragmentView(fv, map, addToBackStack);
             }
@@ -201,7 +212,6 @@ public class NavigationService extends BaseService implements INavigationService
 
     @Override
     public void notifyActivityResumed(AppCompatActivity activity) {
-        IViewLocatorService locator = ServiceLocator.getInstance().getService(IViewLocatorService.class);
         if (activity == null) return;
         if (pendingOperation == null) {
             getCurrentActivityService().removeActivityChangedNotification(this);

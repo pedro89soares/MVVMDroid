@@ -37,4 +37,36 @@ public interface IDialogService extends IService {
     public void showDatePickerDialog(DatePickerDialog.OnDateSetListener action);
 
     public void showTimePickerDialog(TimePickerDialog.OnTimeSetListener action);
+
+    public void showLongSnackBar(String text, boolean forceExecuteOnUIThread);
+
+    public void showShortSnackBar(String text, boolean forceExecuteOnUIThread);
+
+    public void showLongToast(String text, boolean forceExecuteOnUIThread);
+
+    public void showShortToast(String text, boolean forceExecuteOnUIThread);
+
+    public void showLongSnackBar(int text, boolean forceExecuteOnUIThread);
+
+    public void showShortSnackBar(int text, boolean forceExecuteOnUIThread);
+
+    public void showLongToast(int text, boolean forceExecuteOnUIThread);
+
+    public void showShortToast(int text, boolean forceExecuteOnUIThread);
+
+    public void showDialog(String title, String message, boolean forceExecuteOnUIThread);
+
+    public void showDialog(String title, String message, DialogInterface.OnClickListener positiveAction, boolean forceExecuteOnUIThread);
+
+    public void showDialog(String title, String message, DialogInterface.OnClickListener positiveAction, String positiveText, boolean forceExecuteOnUIThread);
+
+    public void showDialog(String title, String message, DialogInterface.OnClickListener positiveAction, DialogInterface.OnClickListener negativeAction, boolean forceExecuteOnUIThread);
+
+    public void showDialog(String title, String message, boolean isCancelable,
+                           DialogInterface.OnClickListener positiveAction, DialogInterface.OnClickListener negativeAction,
+                           String positiveText, String negativeText, boolean forceExecuteOnUIThread);
+
+    public void showDatePickerDialog(DatePickerDialog.OnDateSetListener action, boolean forceExecuteOnUIThread);
+
+    public void showTimePickerDialog(TimePickerDialog.OnTimeSetListener action, boolean forceExecuteOnUIThread);
 }

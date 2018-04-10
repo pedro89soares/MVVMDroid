@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.soares.pedro.mvvmdroid.Services.Interfaces.IDialogService;
 import com.soares.pedro.mvvmlib.R;
 
+import java.sql.Date;
 import java.util.Calendar;
 
 public class DialogService extends BaseService implements IDialogService {
@@ -271,12 +272,29 @@ public class DialogService extends BaseService implements IDialogService {
     }
 
     @Override
+    public void showDatePickerDialog(DatePickerDialog.OnDateSetListener action, Date initialDate, boolean forceExecuteOnUIThread) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(initialDate);
+
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+
+        showDatePickerDialog(action, year, month, day, forceExecuteOnUIThread);
+    }
+
+    @Override
     public void showDatePickerDialog(DatePickerDialog.OnDateSetListener action,
                                      boolean forceExecuteOnUIThread) {
         int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         int month = Calendar.getInstance().get(Calendar.MONTH);
         int year = Calendar.getInstance().get(Calendar.YEAR);
 
+        showDatePickerDialog(action, year, month, day, forceExecuteOnUIThread);
+    }
+
+    private void showDatePickerDialog(DatePickerDialog.OnDateSetListener action, int year, int month, int day, boolean forceExecuteOnUIThread) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(getCurrentActivity(), action, year, month, day);
         Activity activity = getCurrentActivity();
         if (activity == null) return;
@@ -288,14 +306,8 @@ public class DialogService extends BaseService implements IDialogService {
     }
 
     @Override
-    public void showTimePickerDialog(TimePickerDialog.OnTimeSetListener action,
-                                     boolean forceExecuteOnUIThread) {
-
-        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        int minute = Calendar.getInstance().get(Calendar.MINUTE);
-
-
-        TimePickerDialog timePickerDialog = new TimePickerDialog(getCurrentActivity(), action, hour, minute, true);
+    public void showTimePickerDialog(TimePickerDialog.OnTimeSetListener action, int initialHours, int initialMinutes, boolean forceExecuteOnUIThread) {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getCurrentActivity(), action, initialHours, initialMinutes, true);
         Activity activity = getCurrentActivity();
         if (activity == null) return;
         if (forceExecuteOnUIThread) {
@@ -303,5 +315,15 @@ public class DialogService extends BaseService implements IDialogService {
         } else {
             timePickerDialog.show();
         }
+    }
+
+    @Override
+    public void showTimePickerDialog(TimePickerDialog.OnTimeSetListener action,
+                                     boolean forceExecuteOnUIThread) {
+
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        int minute = Calendar.getInstance().get(Calendar.MINUTE);
+
+        this.showTimePickerDialog(action, hour, minute, forceExecuteOnUIThread);
     }
 }

@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 
+import java.sql.Date;
+
 public interface IDialogService extends IService {
 
     public void showLongSnackBar(String text);
@@ -66,7 +68,11 @@ public interface IDialogService extends IService {
                            DialogInterface.OnClickListener positiveAction, DialogInterface.OnClickListener negativeAction,
                            String positiveText, String negativeText, boolean forceExecuteOnUIThread);
 
+    public void showDatePickerDialog(DatePickerDialog.OnDateSetListener action, Date initialDate, boolean forceExecuteOnUIThread);
+
     public void showDatePickerDialog(DatePickerDialog.OnDateSetListener action, boolean forceExecuteOnUIThread);
+
+    public void showTimePickerDialog(TimePickerDialog.OnTimeSetListener action, int initialHours, int initialMinutes, boolean forceExecuteOnUIThread);
 
     public void showTimePickerDialog(TimePickerDialog.OnTimeSetListener action, boolean forceExecuteOnUIThread);
 }

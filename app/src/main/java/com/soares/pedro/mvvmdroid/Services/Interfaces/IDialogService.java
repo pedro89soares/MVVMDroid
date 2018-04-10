@@ -4,7 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 
-import java.sql.Date;
+import java.util.Date;
 
 public interface IDialogService extends IService {
 

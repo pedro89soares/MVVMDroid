@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.soares.pedro.mvvmdroid.Services.Interfaces.IDialogService;
 import com.soares.pedro.mvvmlib.R;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Calendar;
 
 public class DialogService extends BaseService implements IDialogService {

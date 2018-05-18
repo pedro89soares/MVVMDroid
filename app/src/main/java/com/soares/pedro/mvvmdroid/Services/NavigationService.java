@@ -27,6 +27,7 @@ public class NavigationService extends BaseService implements INavigationService
 
     private static final String HASH_MAP_KEY = "mapKey";
     private PendingOperation pendingOperation;
+    private String backDestinationView;
 
     public NavigationService() {
         super();
@@ -87,7 +88,6 @@ public class NavigationService extends BaseService implements INavigationService
                         currentActivity.finish();
                         break;
                 }
-
             }
         } else if (locator.containsFragmentView(view)) {
             FragmentView fv = locator.getFragmentView(view);
@@ -124,6 +124,15 @@ public class NavigationService extends BaseService implements INavigationService
             fragmentManager.popBackStack();
         else
             currentActivity.onBackPressed();
+    }
+
+    @Override
+    public void backTo(String view) {
+        IViewLocatorService locator = ServiceLocator.getInstance().getService(IViewLocatorService.class);
+        if (locator.containsView(view)) {
+            backDestinationView = view;
+            getCurrentActivity().onBackPressed();
+        }
     }
 
     private void replaceFragment(Fragment frag, int container, String tag, boolean addToBackStack) {
@@ -186,7 +195,13 @@ public class NavigationService extends BaseService implements INavigationService
     public void notifyActivityChanged(AppCompatActivity activity) {
         IViewLocatorService locator = ServiceLocator.getInstance().getService(IViewLocatorService.class);
         if (activity == null) return;
-        if (pendingOperation == null) {
+        if (backDestinationView != null) {
+            if (activity.getClass() == locator.getView(backDestinationView))
+                backDestinationView = null;
+            else
+                activity.onBackPressed();
+        }
+        if (pendingOperation == null && backDestinationView == null) {
             getCurrentActivityService().removeActivityChangedNotification(this);
             return;
         }

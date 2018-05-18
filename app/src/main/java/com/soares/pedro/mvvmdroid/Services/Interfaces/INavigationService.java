@@ -25,4 +25,6 @@ public interface INavigationService extends IService {
 
     void back();
 
+    void backTo(String view);
+
 }

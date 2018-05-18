@@ -131,6 +131,7 @@ public class NavigationService extends BaseService implements INavigationService
         IViewLocatorService locator = ServiceLocator.getInstance().getService(IViewLocatorService.class);
         if (locator.containsView(view)) {
             backDestinationView = view;
+            getCurrentActivityService().registerActivityChangedNotification(this);
             getCurrentActivity().onBackPressed();
         }
     }
@@ -196,12 +197,14 @@ public class NavigationService extends BaseService implements INavigationService
         IViewLocatorService locator = ServiceLocator.getInstance().getService(IViewLocatorService.class);
         if (activity == null) return;
         if (backDestinationView != null) {
-            if (activity.getClass() == locator.getView(backDestinationView))
+            if (activity.getClass() == locator.getView(backDestinationView)) {
                 backDestinationView = null;
-            else
+                getCurrentActivityService().removeActivityChangedNotification(this);
+            } else
                 activity.onBackPressed();
+            return;
         }
-        if (pendingOperation == null && backDestinationView == null) {
+        if (pendingOperation == null) {
             getCurrentActivityService().removeActivityChangedNotification(this);
             return;
         }

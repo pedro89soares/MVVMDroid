@@ -10,12 +10,29 @@ public interface ICurrentActivityService extends IService {
 
     BaseActivity getCurrentActivity();
 
+    /**
+     *
+     * @param listener
+     */
     void registerActivityChangedNotification(IActivityChangedListener listener);
 
+    /**
+     *
+     * @param listener
+     */
     void removeActivityChangedNotification(IActivityChangedListener listener);
 
+    /**
+     *
+     * @param activity
+     * @param listener
+     */
     void registerActivityBackPressedNotification(Class activity, IActivityBackPressedListener listener);
 
+    /**
+     *
+     * @param listener
+     */
     void removeActivityBackPressedNotification(IActivityBackPressedListener listener);
 
     boolean backPressed();

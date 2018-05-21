@@ -7,19 +7,61 @@ import com.mvvmlib.Models.FragmentView;
 
 public interface IViewLocatorService extends IService {
 
+    /**
+     *
+     * @param key
+     * @param activity
+     */
     public void registerView(String key, Class activity);
 
+    /**
+     *
+     * @param key
+     * @param fragment
+     * @param parentActivity
+     * @param container
+     */
     public void registerView(String key, Class fragment, String parentActivity, int container);
 
-    Class getView(String key);
+    /**
+     *
+     * @param view
+     * @return
+     */
+    Class getView(String view);
 
-    FragmentView getFragmentView(String key);
+    /**
+     *
+     * @param view
+     * @return
+     */
+    FragmentView getFragmentView(String view);
 
-    public boolean containsView(String key);
+    /**
+     *
+     * @param view
+     * @return
+     */
+    public boolean containsView(String view);
 
-    public boolean containsFragmentView(String key);
+    /**
+     *
+     * @param view
+     * @return
+     */
+    public boolean containsFragmentView(String view);
 
+    /**
+     *
+     * @param view
+     * @return
+     */
     public Fragment getFragmentInstanceOf(String view);
 
+    /**
+     *
+     * @param view
+     * @return
+     */
     public AppCompatActivity getActivityInstanceOf(String view);
 }

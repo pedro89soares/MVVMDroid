@@ -21,87 +21,171 @@ public class DialogService extends BaseService implements IDialogService {
         super();
     }
 
+    /**
+     *
+     * @return Root View of Current Activity
+     */
     private View getCurrentActivityRootView() {
         Activity activity = getCurrentActivity();
         if (activity == null) return null;
         return activity.findViewById(android.R.id.content);
     }
 
+    /**
+     *
+     * @param text
+     */
     @Override
     public void showLongSnackBar(String text) {
         this.showLongSnackBar(text, false);
     }
 
+    /**
+     *
+     * @param text
+     */
     @Override
     public void showShortSnackBar(String text) {
         this.showShortSnackBar(text, false);
     }
 
+    /**
+     *
+     * @param text
+     */
     @Override
     public void showLongToast(String text) {
         this.showLongToast(text, false);
     }
 
+    /**
+     *
+     * @param text
+     */
     @Override
     public void showShortToast(String text) {
         this.showShortToast(text, false);
     }
 
+    /**
+     *
+     * @param text resource
+     */
     @Override
     public void showLongSnackBar(int text) {
         this.showLongSnackBar(text, false);
     }
 
+    /**
+     *
+     * @param text resource
+     */
     @Override
     public void showShortSnackBar(int text) {
         this.showShortSnackBar(text, false);
     }
 
+    /**
+     *
+     * @param text resource
+     */
     @Override
     public void showLongToast(int text) {
         this.showLongToast(text, false);
     }
 
+    /**
+     *
+     * @param text resource
+     */
     @Override
     public void showShortToast(int text) {
         this.showShortToast(text, false);
     }
 
+    /**
+     *
+     * @param title
+     * @param message
+     */
     @Override
     public void showDialog(String title, String message) {
         this.showDialog(title, message, false);
     }
 
+    /**
+     *
+     * @param title
+     * @param message
+     * @param positiveAction
+     */
     @Override
     public void showDialog(String title, String message, DialogInterface.OnClickListener positiveAction) {
         this.showDialog(title, message, positiveAction, false);
     }
 
+    /**
+     *
+     * @param title
+     * @param message
+     * @param positiveAction
+     * @param positiveText
+     */
     @Override
     public void showDialog(String title, String message, DialogInterface.OnClickListener positiveAction, String positiveText) {
         this.showDialog(title, message, positiveAction, positiveText, false);
     }
 
+    /**
+     *
+     * @param title
+     * @param message
+     * @param positiveAction
+     * @param negativeAction
+     */
     @Override
     public void showDialog(String title, String message, DialogInterface.OnClickListener positiveAction, DialogInterface.OnClickListener negativeAction) {
         this.showDialog(title, message, positiveAction, negativeAction, false);
     }
 
+    /**
+     *
+     * @param title
+     * @param message
+     * @param isCancelable
+     * @param positiveAction
+     * @param negativeAction
+     * @param positiveText
+     * @param negativeText
+     */
     @Override
     public void showDialog(String title, String message, boolean isCancelable, DialogInterface.OnClickListener positiveAction, DialogInterface.OnClickListener negativeAction, String positiveText, String negativeText) {
         this.showDialog(title, message, isCancelable, positiveAction, negativeAction, positiveText, negativeText, false);
     }
 
+    /**
+     *
+     * @param action
+     */
     @Override
     public void showDatePickerDialog(DatePickerDialog.OnDateSetListener action) {
         this.showDatePickerDialog(action, false);
     }
 
+    /**
+     *
+     * @param action
+     */
     @Override
     public void showTimePickerDialog(TimePickerDialog.OnTimeSetListener action) {
         this.showTimePickerDialog(action, false);
     }
 
+    /**
+     *
+     * @param text
+     * @param forceExecuteOnUIThread
+     */
     @Override
     public void showLongSnackBar(String text, boolean forceExecuteOnUIThread) {
         View view = getCurrentActivityRootView();
@@ -112,6 +196,11 @@ public class DialogService extends BaseService implements IDialogService {
             Snackbar.make(view, text, Snackbar.LENGTH_LONG).show();
     }
 
+    /**
+     *
+     * @param text
+     * @param forceExecuteOnUIThread
+     */
     @Override
     public void showShortSnackBar(String text, boolean forceExecuteOnUIThread) {
         View view = getCurrentActivityRootView();
@@ -123,6 +212,11 @@ public class DialogService extends BaseService implements IDialogService {
         }
     }
 
+    /**
+     *
+     * @param text
+     * @param forceExecuteOnUIThread
+     */
     @Override
     public void showLongToast(String text, boolean forceExecuteOnUIThread) {
         Activity activity = getCurrentActivity();
@@ -134,6 +228,11 @@ public class DialogService extends BaseService implements IDialogService {
         }
     }
 
+    /**
+     *
+     * @param text
+     * @param forceExecuteOnUIThread
+     */
     @Override
     public void showShortToast(String text, boolean forceExecuteOnUIThread) {
         Activity activity = getCurrentActivity();
@@ -146,6 +245,11 @@ public class DialogService extends BaseService implements IDialogService {
 
     }
 
+    /**
+     *
+     * @param text
+     * @param forceExecuteOnUIThread
+     */
     @Override
     public void showLongSnackBar(int text, boolean forceExecuteOnUIThread) {
         Activity activity = getCurrentActivity();
@@ -157,6 +261,11 @@ public class DialogService extends BaseService implements IDialogService {
         }
     }
 
+    /**
+     *
+     * @param text
+     * @param forceExecuteOnUIThread
+     */
     @Override
     public void showShortSnackBar(int text, boolean forceExecuteOnUIThread) {
         Activity activity = getCurrentActivity();
@@ -168,6 +277,11 @@ public class DialogService extends BaseService implements IDialogService {
         }
     }
 
+    /**
+     *
+     * @param text
+     * @param forceExecuteOnUIThread
+     */
     @Override
     public void showLongToast(int text, boolean forceExecuteOnUIThread) {
         Activity activity = getCurrentActivity();
@@ -179,6 +293,11 @@ public class DialogService extends BaseService implements IDialogService {
         }
     }
 
+    /**
+     *
+     * @param text
+     * @param forceExecuteOnUIThread
+     */
     @Override
     public void showShortToast(int text, boolean forceExecuteOnUIThread) {
         Activity activity = getCurrentActivity();
@@ -190,6 +309,12 @@ public class DialogService extends BaseService implements IDialogService {
         }
     }
 
+    /**
+     *
+     * @param title
+     * @param message
+     * @param forceExecuteOnUIThread
+     */
     @Override
     public void showDialog(String title, String message, boolean forceExecuteOnUIThread) {
         Activity activity = getCurrentActivity();
@@ -201,6 +326,13 @@ public class DialogService extends BaseService implements IDialogService {
         }
     }
 
+    /**
+     *
+     * @param title
+     * @param message
+     * @param positiveAction
+     * @param forceExecuteOnUIThread
+     */
     @Override
     public void showDialog(String title, String message, DialogInterface.OnClickListener
             positiveAction, boolean forceExecuteOnUIThread) {
@@ -213,6 +345,14 @@ public class DialogService extends BaseService implements IDialogService {
         }
     }
 
+    /**
+     *
+     * @param title
+     * @param message
+     * @param positiveAction
+     * @param positiveText
+     * @param forceExecuteOnUIThread
+     */
     @Override
     public void showDialog(String title, String message, DialogInterface.OnClickListener
             positiveAction, String positiveText, boolean forceExecuteOnUIThread) {
@@ -225,6 +365,14 @@ public class DialogService extends BaseService implements IDialogService {
         }
     }
 
+    /**
+     *
+     * @param title
+     * @param message
+     * @param positiveAction
+     * @param negativeAction
+     * @param forceExecuteOnUIThread
+     */
     @Override
     public void showDialog(String title, String message, DialogInterface.OnClickListener
             positiveAction, DialogInterface.OnClickListener negativeAction,
@@ -238,6 +386,17 @@ public class DialogService extends BaseService implements IDialogService {
         }
     }
 
+    /**
+     *
+     * @param title
+     * @param message
+     * @param isCancelable
+     * @param positiveAction
+     * @param negativeAction
+     * @param positiveText
+     * @param negativeText
+     * @param forceExecuteOnUIThread
+     */
     @Override
     public void showDialog(String title, String message, boolean isCancelable,
                            DialogInterface.OnClickListener positiveAction, DialogInterface.
@@ -271,6 +430,12 @@ public class DialogService extends BaseService implements IDialogService {
         }
     }
 
+    /**
+     *
+     * @param action
+     * @param initialDate
+     * @param forceExecuteOnUIThread
+     */
     @Override
     public void showDatePickerDialog(DatePickerDialog.OnDateSetListener action, Date initialDate, boolean forceExecuteOnUIThread) {
 
@@ -284,6 +449,11 @@ public class DialogService extends BaseService implements IDialogService {
         showDatePickerDialog(action, year, month, day, forceExecuteOnUIThread);
     }
 
+    /**
+     *
+     * @param action
+     * @param forceExecuteOnUIThread
+     */
     @Override
     public void showDatePickerDialog(DatePickerDialog.OnDateSetListener action,
                                      boolean forceExecuteOnUIThread) {
@@ -294,6 +464,14 @@ public class DialogService extends BaseService implements IDialogService {
         showDatePickerDialog(action, year, month, day, forceExecuteOnUIThread);
     }
 
+    /**
+     *
+     * @param action
+     * @param year
+     * @param month
+     * @param day
+     * @param forceExecuteOnUIThread
+     */
     private void showDatePickerDialog(DatePickerDialog.OnDateSetListener action, int year, int month, int day, boolean forceExecuteOnUIThread) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(getCurrentActivity(), action, year, month, day);
         Activity activity = getCurrentActivity();
@@ -305,6 +483,13 @@ public class DialogService extends BaseService implements IDialogService {
         }
     }
 
+    /**
+     *
+     * @param action
+     * @param initialHours
+     * @param initialMinutes
+     * @param forceExecuteOnUIThread
+     */
     @Override
     public void showTimePickerDialog(TimePickerDialog.OnTimeSetListener action, int initialHours, int initialMinutes, boolean forceExecuteOnUIThread) {
         TimePickerDialog timePickerDialog = new TimePickerDialog(getCurrentActivity(), action, initialHours, initialMinutes, true);
@@ -317,6 +502,11 @@ public class DialogService extends BaseService implements IDialogService {
         }
     }
 
+    /**
+     *
+     * @param action
+     * @param forceExecuteOnUIThread
+     */
     @Override
     public void showTimePickerDialog(TimePickerDialog.OnTimeSetListener action,
                                      boolean forceExecuteOnUIThread) {

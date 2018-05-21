@@ -33,31 +33,64 @@ public class NavigationService extends BaseService implements INavigationService
         super();
     }
 
+    /**
+     *
+     * @param view
+     */
     @Override
     public void navigateTo(String view) {
         navigateTo(view, true, NavigationMode.Normal);
     }
 
+    /**
+     *
+     * @param view
+     * @param addToBackStack
+     */
     @Override
     public void navigateTo(String view, boolean addToBackStack) {
         navigateTo(view, addToBackStack, NavigationMode.Normal);
     }
 
+    /**
+     *
+     * @param view
+     * @param addToBackStack
+     * @param navigationMode
+     */
     @Override
     public void navigateTo(String view, boolean addToBackStack, NavigationMode navigationMode) {
         navigateWithContent(view, null, addToBackStack, navigationMode);
     }
 
+    /**
+     *
+     * @param view
+     * @param map
+     */
     @Override
     public void navigateWithContent(String view, HashMap<String, Object> map) {
         navigateWithContent(view, map, true, NavigationMode.Normal);
     }
 
+    /**
+     *
+     * @param view
+     * @param map
+     * @param addToBackStack
+     */
     @Override
     public void navigateWithContent(String view, HashMap<String, Object> map, boolean addToBackStack) {
         navigateWithContent(view, map, addToBackStack, NavigationMode.Normal);
     }
 
+    /**
+     *
+     * @param view
+     * @param map
+     * @param addToBackStack
+     * @param navigationMode
+     */
     @Override
     public void navigateWithContent(String view, HashMap<String, Object> map, boolean addToBackStack, NavigationMode navigationMode) {
         AppCompatActivity currentActivity = getCurrentActivity();
@@ -103,6 +136,12 @@ public class NavigationService extends BaseService implements INavigationService
     }
 
 
+    /**
+     *
+     *
+     * @param intent
+     * @return Map with contents
+     */
     @Override
     public HashMap getContents(Intent intent) {
         if (intent == null) return null;
@@ -116,6 +155,7 @@ public class NavigationService extends BaseService implements INavigationService
         return null;
     }
 
+
     @Override
     public void back() {
         AppCompatActivity currentActivity = getCurrentActivity();
@@ -126,6 +166,10 @@ public class NavigationService extends BaseService implements INavigationService
             currentActivity.onBackPressed();
     }
 
+    /**
+     *
+     * @param view
+     */
     @Override
     public void backTo(String view) {
         IViewLocatorService locator = ServiceLocator.getInstance().getService(IViewLocatorService.class);
@@ -136,6 +180,13 @@ public class NavigationService extends BaseService implements INavigationService
         }
     }
 
+    /**
+     *
+     * @param frag
+     * @param container
+     * @param tag
+     * @param addToBackStack
+     */
     private void replaceFragment(Fragment frag, int container, String tag, boolean addToBackStack) {
         AppCompatActivity currentActivity = getCurrentActivity();
         if (currentActivity == null) return;
@@ -153,6 +204,13 @@ public class NavigationService extends BaseService implements INavigationService
         transaction.commit();
     }
 
+    /**
+     *
+     * @param fm
+     * @param view
+     * @param type
+     * @return Fragment
+     */
     private Fragment getFragmentInstance(FragmentManager fm, String view, Class type) {
         Fragment frag = fm.findFragmentByTag(view);
         if (frag == null) {
@@ -165,6 +223,12 @@ public class NavigationService extends BaseService implements INavigationService
         return frag;
     }
 
+    /**
+     *
+     * @param fv
+     * @param map
+     * @param addToBackStack
+     */
     private void changeFragmentView(FragmentView fv, HashMap<String, Object> map, boolean addToBackStack) {
         AppCompatActivity currentActivity = getCurrentActivity();
 
@@ -192,6 +256,10 @@ public class NavigationService extends BaseService implements INavigationService
         }
     }
 
+    /**
+     *
+     * @param activity
+     */
     @Override
     public void notifyActivityChanged(AppCompatActivity activity) {
         IViewLocatorService locator = ServiceLocator.getInstance().getService(IViewLocatorService.class);
@@ -214,6 +282,10 @@ public class NavigationService extends BaseService implements INavigationService
         }
     }
 
+    /**
+     *
+     * @param activity
+     */
     @Override
     public void notifyActivityStarted(AppCompatActivity activity) {
         IViewLocatorService locator = ServiceLocator.getInstance().getService(IViewLocatorService.class);
@@ -236,6 +308,10 @@ public class NavigationService extends BaseService implements INavigationService
         }
     }
 
+    /**
+     *
+     * @param activity
+     */
     @Override
     public void notifyActivityResumed(AppCompatActivity activity) {
         if (activity == null) return;
@@ -244,6 +320,10 @@ public class NavigationService extends BaseService implements INavigationService
         }
     }
 
+    /**
+     *
+     * @return Current Activity Service
+     */
     private ICurrentActivityService getCurrentActivityService() {
         return ServiceLocator.getInstance().getService(ICurrentActivityService.class);
     }

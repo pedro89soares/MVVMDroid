@@ -1,0 +1,12 @@
+package com.mvvmlib.example.viewmodels;
+
+import com.mvvmlib.ViewModels.BaseViewModel;
+import com.mvvmlib.example.App;
+
+public class HomeViewModel extends BaseViewModel {
+
+
+    public void navigateToTest(){
+        getNavigationService().navigateTo(App.TestView);
+    }
+}

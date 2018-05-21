@@ -1,0 +1,9 @@
+com.mvvmlib.Activities
+com.mvvmlib.Adapters
+com.mvvmlib.Models
+com.mvvmlib.Models.Adapters
+com.mvvmlib.Services
+com.mvvmlib.Services.Enums
+com.mvvmlib.Services.Interfaces
+com.mvvmlib.Utils
+com.mvvmlib.ViewModels

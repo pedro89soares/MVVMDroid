@@ -1,6 +1,6 @@
-package com.mvvmlib.Services;
+package com.mvvmlib.services;
 
-import com.mvvmlib.Services.Interfaces.IService;
+import com.mvvmlib.services.interfaces.IService;
 
 import java.util.HashMap;
 

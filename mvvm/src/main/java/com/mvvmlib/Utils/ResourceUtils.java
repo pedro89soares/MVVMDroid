@@ -1,10 +1,10 @@
-package com.mvvmlib.Utils;
+package com.mvvmlib.utils;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
-import com.mvvmlib.Services.Interfaces.ICurrentActivityService;
-import com.mvvmlib.Services.ServiceLocator;
+import com.mvvmlib.services.interfaces.ICurrentActivityService;
+import com.mvvmlib.services.ServiceLocator;
 
 public class ResourceUtils {
 

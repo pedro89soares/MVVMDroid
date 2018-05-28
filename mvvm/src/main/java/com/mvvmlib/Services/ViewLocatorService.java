@@ -1,16 +1,16 @@
-package com.mvvmlib.Services;
+package com.mvvmlib.services;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-import com.mvvmlib.Activities.BaseActivity;
-import com.mvvmlib.Models.FragmentView;
-import com.mvvmlib.Services.Interfaces.IViewLocatorService;
+import com.mvvmlib.activities.BaseActivity;
+import com.mvvmlib.models.FragmentView;
+import com.mvvmlib.services.interfaces.IViewLocatorService;
 
 import java.util.HashMap;
 
 
-public class ViewLocatorService extends BaseService implements IViewLocatorService {
+public class ViewLocatorService extends com.mvvmlib.services.BaseService implements IViewLocatorService {
 
     private HashMap<String, Class> locator;
     private HashMap<String, FragmentView> fragmentLocator;

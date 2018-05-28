@@ -1,4 +1,4 @@
-package com.mvvmlib.Models;
+package com.mvvmlib.models;
 
 public class FragmentView {
     private String activity, view;

@@ -1,4 +1,4 @@
-package com.mvvmlib.Models.Adapters;
+package com.mvvmlib.models.Adapters;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;

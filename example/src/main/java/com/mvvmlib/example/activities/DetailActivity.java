@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 
 import com.example.example.R;
 import com.example.example.databinding.ActivityDetailBinding;
-import com.mvvmlib.Activities.BaseActivity;
+import com.mvvmlib.activities.BaseActivity;
 import com.mvvmlib.example.viewmodels.DetailViewModel;
 
 public class DetailActivity extends BaseActivity {

@@ -1,18 +1,18 @@
-package com.mvvmlib.Models;
+package com.mvvmlib.models;
 
 import android.app.Application;
 
-import com.mvvmlib.Services.CurrentActivityService;
-import com.mvvmlib.Services.DialogService;
-import com.mvvmlib.Services.Interfaces.ICurrentActivityService;
-import com.mvvmlib.Services.Interfaces.IDialogService;
-import com.mvvmlib.Services.Interfaces.INavigationService;
-import com.mvvmlib.Services.Interfaces.ISharedPreferences;
-import com.mvvmlib.Services.Interfaces.IViewLocatorService;
-import com.mvvmlib.Services.NavigationService;
-import com.mvvmlib.Services.ServiceLocator;
-import com.mvvmlib.Services.SharedPreferencesService;
-import com.mvvmlib.Services.ViewLocatorService;
+import com.mvvmlib.services.CurrentActivityService;
+import com.mvvmlib.services.DialogService;
+import com.mvvmlib.services.interfaces.ICurrentActivityService;
+import com.mvvmlib.services.interfaces.IDialogService;
+import com.mvvmlib.services.interfaces.INavigationService;
+import com.mvvmlib.services.interfaces.ISharedPreferences;
+import com.mvvmlib.services.interfaces.IViewLocatorService;
+import com.mvvmlib.services.NavigationService;
+import com.mvvmlib.services.ServiceLocator;
+import com.mvvmlib.services.SharedPreferencesService;
+import com.mvvmlib.services.ViewLocatorService;
 
 public class BaseApplication extends Application {
 

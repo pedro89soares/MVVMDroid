@@ -1,9 +1,8 @@
-package com.mvvmlib.Services.Interfaces;
+package com.mvvmlib.services.interfaces;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 
-import com.mvvmlib.Services.Enums.NavigationMode;
+import com.mvvmlib.services.enums.NavigationMode;
 
 import java.util.HashMap;
 

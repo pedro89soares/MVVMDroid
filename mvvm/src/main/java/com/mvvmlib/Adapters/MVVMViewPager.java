@@ -1,4 +1,4 @@
-package com.mvvmlib.Adapters;
+package com.mvvmlib.adapters;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;

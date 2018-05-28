@@ -1,4 +1,4 @@
-package com.mvvmlib.Services.Interfaces;
+package com.mvvmlib.services.interfaces;
 
 import android.support.v7.app.AppCompatActivity;
 

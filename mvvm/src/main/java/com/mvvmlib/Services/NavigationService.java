@@ -1,4 +1,4 @@
-package com.mvvmlib.Services;
+package com.mvvmlib.services;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,14 +10,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.mvvmlib.Adapters.MVVMViewPager;
-import com.mvvmlib.Models.FragmentView;
-import com.mvvmlib.Models.PendingOperation;
-import com.mvvmlib.Services.Enums.NavigationMode;
-import com.mvvmlib.Services.Interfaces.IActivityChangedListener;
-import com.mvvmlib.Services.Interfaces.ICurrentActivityService;
-import com.mvvmlib.Services.Interfaces.INavigationService;
-import com.mvvmlib.Services.Interfaces.IViewLocatorService;
+import com.mvvmlib.adapters.MVVMViewPager;
+import com.mvvmlib.models.FragmentView;
+import com.mvvmlib.models.PendingOperation;
+import com.mvvmlib.services.enums.NavigationMode;
+import com.mvvmlib.services.interfaces.IActivityChangedListener;
+import com.mvvmlib.services.interfaces.ICurrentActivityService;
+import com.mvvmlib.services.interfaces.INavigationService;
+import com.mvvmlib.services.interfaces.IViewLocatorService;
 
 import java.io.Serializable;
 import java.util.HashMap;

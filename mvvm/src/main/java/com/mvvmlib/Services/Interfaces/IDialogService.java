@@ -1,4 +1,4 @@
-package com.mvvmlib.Services.Interfaces;
+package com.mvvmlib.services.interfaces;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;

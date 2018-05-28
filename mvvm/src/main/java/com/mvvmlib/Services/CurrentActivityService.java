@@ -1,14 +1,14 @@
-package com.mvvmlib.Services;
+package com.mvvmlib.services;
 
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.mvvmlib.Activities.BaseActivity;
-import com.mvvmlib.Services.Interfaces.IActivityBackPressedListener;
-import com.mvvmlib.Services.Interfaces.IActivityChangedListener;
-import com.mvvmlib.Services.Interfaces.ICurrentActivityService;
+import com.mvvmlib.activities.BaseActivity;
+import com.mvvmlib.services.interfaces.IActivityBackPressedListener;
+import com.mvvmlib.services.interfaces.IActivityChangedListener;
+import com.mvvmlib.services.interfaces.ICurrentActivityService;
 
 import java.util.ArrayList;
 import java.util.HashMap;

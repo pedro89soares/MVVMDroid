@@ -1,8 +1,8 @@
-package com.mvvmlib.Services.Interfaces;
+package com.mvvmlib.services.interfaces;
 
 import android.app.Application;
 
-import com.mvvmlib.Activities.BaseActivity;
+import com.mvvmlib.activities.BaseActivity;
 
 public interface ICurrentActivityService extends IService {
 

@@ -1,4 +1,4 @@
-package com.mvvmlib.Services.Enums;
+package com.mvvmlib.services.enums;
 
 public enum NavigationMode {
     Normal(1),

@@ -1,4 +1,4 @@
-package com.mvvmlib.Models;
+package com.mvvmlib.models;
 
 import java.util.HashMap;
 

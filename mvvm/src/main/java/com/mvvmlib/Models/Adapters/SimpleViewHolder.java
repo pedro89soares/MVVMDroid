@@ -1,4 +1,4 @@
-package com.mvvmlib.Models.Adapters;
+package com.mvvmlib.models.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

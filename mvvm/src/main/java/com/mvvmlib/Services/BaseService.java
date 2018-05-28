@@ -1,9 +1,8 @@
-package com.mvvmlib.Services;
+package com.mvvmlib.services;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
-
-import com.mvvmlib.Services.Interfaces.ICurrentActivityService;
+import com.mvvmlib.services.interfaces.ICurrentActivityService;
 
 public class BaseService {
 

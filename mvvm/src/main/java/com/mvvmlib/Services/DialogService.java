@@ -1,4 +1,4 @@
-package com.mvvmlib.Services;
+package com.mvvmlib.services;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -9,7 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Toast;
 
-import com.mvvmlib.Services.Interfaces.IDialogService;
+import com.mvvmlib.services.interfaces.IDialogService;
 import com.soares.pedro.mvvmlib.R;
 
 import java.util.Date;
@@ -409,16 +409,17 @@ public class DialogService extends BaseService implements IDialogService {
         dialog.setCancelable(isCancelable);
 
         if (positiveAction == null && negativeAction == null) {
-            dialog.setPositiveButton(getCurrentActivity().getResources().getText(R.string.defaultOk), (dialogInterface, i) -> {
+            dialog.setPositiveButton(getContext()
+                    .getResources().getText(R.string.defaultOk), (dialogInterface, i) -> {
 
             });
         } else {
 
             if (positiveAction != null) {
-                dialog.setPositiveButton(positiveText == null ? getCurrentActivity().getResources().getText(R.string.defaultOk) : positiveText, positiveAction);
+                dialog.setPositiveButton(positiveText == null ? getContext().getResources().getText(R.string.defaultOk) : positiveText, positiveAction);
             }
             if (negativeAction != null) {
-                dialog.setNegativeButton(negativeText == null ? getCurrentActivity().getResources().getText(R.string.defaultCancel) : negativeText, negativeAction);
+                dialog.setNegativeButton(negativeText == null ? getContext().getResources().getText(R.string.defaultCancel) : negativeText, negativeAction);
             }
         }
         Activity activity = getCurrentActivity();

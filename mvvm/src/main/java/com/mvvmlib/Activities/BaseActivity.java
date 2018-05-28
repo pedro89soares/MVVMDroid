@@ -1,4 +1,4 @@
-package com.mvvmlib.Activities;
+package com.mvvmlib.activities;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -8,9 +8,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
-import com.mvvmlib.Services.Interfaces.ICurrentActivityService;
-import com.mvvmlib.Services.ServiceLocator;
-import com.mvvmlib.ViewModels.BaseViewModel;
+import com.mvvmlib.services.interfaces.ICurrentActivityService;
+import com.mvvmlib.services.ServiceLocator;
+import com.mvvmlib.viewModels.BaseViewModel;
 
 public class BaseActivity extends AppCompatActivity {
     protected BaseViewModel viewModel;

@@ -4,10 +4,9 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-
-import com.example.example.R;
 import com.example.example.databinding.ActivityHomeBinding;
-import com.mvvmlib.Activities.BaseActivity;
+import com.example.example.R;
+import com.mvvmlib.activities.BaseActivity;
 import com.mvvmlib.example.viewmodels.HomeViewModel;
 
 public class HomeActivity extends BaseActivity {

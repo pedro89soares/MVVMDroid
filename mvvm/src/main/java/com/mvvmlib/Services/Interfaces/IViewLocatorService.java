@@ -1,9 +1,9 @@
-package com.mvvmlib.Services.Interfaces;
+package com.mvvmlib.services.interfaces;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-import com.mvvmlib.Models.FragmentView;
+import com.mvvmlib.models.FragmentView;
 
 public interface IViewLocatorService extends IService {
 

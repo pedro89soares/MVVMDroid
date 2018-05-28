@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 
 import com.example.example.R;
 import com.example.example.databinding.ActivityTestBinding;
-import com.mvvmlib.Activities.BaseActivity;
+import com.mvvmlib.activities.BaseActivity;
 import com.mvvmlib.example.viewmodels.TestViewModel;
 
 public class TestActivity extends BaseActivity {

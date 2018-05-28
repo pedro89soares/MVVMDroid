@@ -1,11 +1,11 @@
 package com.mvvmlib.example;
 
-import com.mvvmlib.Models.BaseApplication;
-import com.mvvmlib.Services.Interfaces.IViewLocatorService;
-import com.mvvmlib.Services.ServiceLocator;
 import com.mvvmlib.example.activities.DetailActivity;
 import com.mvvmlib.example.activities.HomeActivity;
 import com.mvvmlib.example.activities.TestActivity;
+import com.mvvmlib.models.BaseApplication;
+import com.mvvmlib.services.interfaces.IViewLocatorService;
+import com.mvvmlib.services.ServiceLocator;
 
 public class App extends BaseApplication {
 
@@ -16,9 +16,10 @@ public class App extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        IViewLocatorService viewLocator = ServiceLocator.getInstance().getService(IViewLocatorService.class);
-        viewLocator.registerView(HomeView, HomeActivity.class);
-        viewLocator.registerView(TestView, TestActivity.class);
-        viewLocator.registerView(DetailView, DetailActivity.class);
+
+        IViewLocatorService viewLocatorService = ServiceLocator.getInstance().getService(IViewLocatorService.class);
+        viewLocatorService.registerView(HomeView, HomeActivity.class);
+        viewLocatorService.registerView(TestView, TestActivity.class);
+        viewLocatorService.registerView(DetailView, DetailActivity.class);
     }
 }

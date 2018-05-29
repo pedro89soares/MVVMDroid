@@ -13,7 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 import com.mvvmlib.services.interfaces.ICurrentActivityService;
-import com.mvvmlib.viewModels.BaseViewModel;
+
 
 import javax.inject.Inject;
 

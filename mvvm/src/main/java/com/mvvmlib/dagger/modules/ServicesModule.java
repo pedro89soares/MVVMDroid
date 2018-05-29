@@ -4,10 +4,10 @@ import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.mvvmlib.services.CurrentActivityService;
+import com.mvvmlib.dagger.services.CurrentActivityService;
 import com.mvvmlib.services.DialogService;
 import com.mvvmlib.services.SharedPreferencesService;
-import com.mvvmlib.services.interfaces.ICurrentActivityService;
+import com.mvvmlib.dagger.services.interfaces.ICurrentActivityService;
 import com.mvvmlib.services.interfaces.IDialogService;
 import com.mvvmlib.services.interfaces.INavigationService;
 import com.mvvmlib.services.interfaces.ISharedPreferences;

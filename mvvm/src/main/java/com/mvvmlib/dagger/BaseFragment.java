@@ -1,6 +1,5 @@
 package com.mvvmlib.dagger;
 
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
@@ -17,7 +16,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public abstract class BaseFragment<T extends ViewDataBinding, V extends ViewModel> extends DaggerFragment {
+public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseViewModel> extends DaggerFragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;

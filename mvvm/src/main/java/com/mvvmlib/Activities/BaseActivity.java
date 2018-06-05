@@ -15,8 +15,6 @@ import com.mvvmlib.viewModels.BaseViewModel;
 public class BaseActivity extends AppCompatActivity {
     protected BaseViewModel viewModel;
 
-    private static final String[] needPermissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,12 +32,17 @@ public class BaseActivity extends AppCompatActivity {
         return viewModel;
     }
 
+    protected String[] getPermitions() {
+        return new String[0];
+    }
+
     protected void checkAppPermissions() {
+        String[] needPermissions = getPermitions();
+        if (needPermissions == null || needPermissions.length == 0) return;
         for (String permission : needPermissions) {
             if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{permission}, 1);
             }
         }
-
     }
 }

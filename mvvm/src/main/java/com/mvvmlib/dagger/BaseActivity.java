@@ -35,8 +35,6 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
 
     public abstract int getViewModelVariable();
 
-    private static final String[] neededPermissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-
     @Inject
     Context applicationContext;
 
@@ -63,12 +61,17 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
         }
     }
 
+    protected String[] getPermitions() {
+        return new String[0];
+    }
+
     protected void checkAppPermissions() {
-        for (String permission : neededPermissions) {
+        String[] needPermissions = getPermitions();
+        if (needPermissions == null || needPermissions.length == 0) return;
+        for (String permission : needPermissions) {
             if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{permission}, 1);
             }
         }
-
     }
 }
